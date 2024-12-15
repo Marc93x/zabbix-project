@@ -1,0 +1,51 @@
+#!/bin/bash
+# Script pour mettre à jour l'IP dynamique de l'agent Zabbix et redémarrer le service
+
+# Détection de la nouvelle IP de la machine
+dynamic_ip=$(hostname -I | awk '{print $1}')
+
+# Fichier de configuration de l'agent Zabbix
+zabbix_agent_conf="/etc/zabbix/zabbix_agentd.conf"
+
+# Mise à jour de l'IP dans la configuration
+if grep -q "^ServerActive=" "$zabbix_agent_conf"; then
+    sed -i "s/^ServerActive=.*/ServerActive=$dynamic_ip/" "$zabbix_agent_conf"
+else
+    echo "ServerActive=$dynamic_ip" >> "$zabbix_agent_conf"
+fi
+
+# Redémarrage de l'agent Zabbix
+systemctl restart zabbix-agent
+
+echo "L'IP dynamique de l'agent Zabbix a été mise à jour : $dynamic_ip"
+
+# Script pour mettre à jour l'IP dans le serveur Zabbix
+zabbix_server_conf="/etc/zabbix/zabbix_server.conf"
+
+# Mise à jour de l'IP dans la configuration du serveur
+if grep -q "^ListenIP=" "$zabbix_server_conf"; then
+    sed -i "s/^ListenIP=.*/ListenIP=$dynamic_ip/" "$zabbix_server_conf"
+else
+    echo "ListenIP=$dynamic_ip" >> "$zabbix_server_conf"
+fi
+
+# Redémarrage du serveur Zabbix
+systemctl restart zabbix-server
+
+echo "L'IP dynamique du serveur Zabbix a été mise à jour : $dynamic_ip"
+
+# Script pour mettre à jour l'IP dans Apache et PHP
+apache_conf="/etc/httpd/conf/httpd.conf"
+
+# Mise à jour de l'IP dans la directive Listen pour Apache
+if grep -q "^Listen " "$apache_conf"; then
+    sed -i "s/^Listen .*/Listen $dynamic_ip:80/" "$apache_conf"
+else
+    echo "Listen $dynamic_ip:80" >> "$apache_conf"
+fi
+
+# Redémarrage du service Apache
+systemctl restart apache2
+
+echo "L'IP dynamique a été mise à jour pour Apache : $dynamic_ip"
+

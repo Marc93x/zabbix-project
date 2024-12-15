@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Portfolio de Marc</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Portfolio de Marc</h1>
+    <p>Bienvenue sur mon portfolio. Voici une présentation de mon projet Zabbix :</p>
+    <h2>Résumé du projet</h2>
+    <ul>
+        <li>Installation de Zabbix sur une VM avec PHP,Apache et une base de donnée MysQL</li>
+        <li>Mise en place d'un agent Zabbix sur mon hôte avec Docker pour faciliter la communication entre la VM et l'hôte.</li>
+        <li>Utilisation de Bash pour automatiser des tâches avec Cron, comme la gestion d'une IP dynamique.</li>
+        <li>Configuration d'un proxy sur l'agent pour améliorer la transmission des données.</li>
+    </ul>
+    <h2>Importance de ce projet</h2>
+    <p>Ce projet met en avant :</p>
+    <ul>
+        <li>L'importance d'une bonne configuration pour le monitoring système.</li>
+        <li>Les bénéfices d'automatisations dans des environnements dynamiques.</li>
+        <li>La sécurisation et l'optimisation des données transmises entre machines.</li>
+        <li>La nécessité de bien gérer l'environnement système, y compris :</li>
+        <ul>
+            <li>Allocation manuelle de mémoire avec modification des partitions.</li>
+            <li>Changement du mode réseau de la VM de NAT à bridge pour éviter des conflits réseau.</li>
+            <li>Résolution de conflits de ports entre agents et services.</li>
+            <li>Gestion des versions de PHP et different service pour éviter les conflits entre anciennes et nouvelles versions.</li>
+        </ul>
+    </ul>
+    <h2>Scripts utilisés</h2>
+    <ul>
+        <li><strong>Script pour l'agent Zabbix :</strong> Met à jour automatiquement l'adresse IP dynamique et redémarre les services nécessaires.</li>
+        <li><strong>Script pour le serveur :</strong> Gère les mises à jour d'IP pour Apache, PHP et le serveur Zabbix dans un fichier de configuration unique.</li>
+    </ul>
+    <h2>Liens</h2>
+    <ul>
+        <li><a href="https://github.com/Marc93x/zabbix-project.git">Dépôt GitHub</a></li>
+    </ul>
+</body>
+</html>
+

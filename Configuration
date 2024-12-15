@@ -1,0 +1,49 @@
+# Portfolio : Configuration et Déploiement de Zabbix sur une VM avec un agent sur mon hôte avec Docker
+
+## 1. Configuration du Serveur Zabbix
+
+Le serveur Zabbix est responsable de la collecte et de la gestion des données envoyées par les agents Zabbix. Voici la configuration du serveur dans le fichier `zabbix_server.conf`.
+
+### Fichier : `zabbix_server.conf`
+
+# Port sur lequel le serveur Zabbix écoute pour les connexions
+ListenPort=10051
+
+# Fichier journal pour les logs du serveur Zabbix
+LogFile=/var/log/zabbix/zabbix_server.log
+
+# Configuration de la base de données
+DBHost=localhost       # Adresse de la base de données
+DBName=zabbix          # Nom de la base de données
+DBUser=zabbix          # Utilisateur pour accéder à la base de données
+DBPassword=*****       # Mot de passe pour l'utilisateur (placeholder)
+
+
+## 2. Configuration de l'agent zabbix sur ma VM
+
+# IP du serveur Zabbix pour la communication
+Server=192.168.1.124        # Adresse IP du serveur Zabbix
+
+# IP du serveur Zabbix pour les connexions actives
+ServerActive=192.168.1.124  # Serveur Zabbix pour les connexions actives
+
+# Nom de l'hôte de l'agent Zabbix
+Hostname=mon_serveur        # Nom de l'hôte que l'agent Zabbix identifie
+LogFile=/var/log/zabbix/zabbix_agentd.log
+LogFileSize=0
+
+
+## 3. Configuration de l'agent zabbix avec Docker sur mon hôte pour faciliter les traitements des données
+
+# Commande Docker pour lancer l'agent Zabbix
+docker run -d --name zabbix-agent \
+    -e ZBX_HOSTNAME=mon_serveur \
+    -e ZBX_SERVER_HOST=192.168.1.124 \
+    -p 10050:10050 \
+    --restart always \
+    zabbix/zabbix-agent:latest
+
+
+Dans cette section, nous avons configuré le serveur Zabbix, l'agent Zabbix et déployé l'agent via Docker. Cette approche simplifie l'installation, la gestion et la maintenance de l'agent Zabbix tout en utilisant les meilleures pratiques avec Docker pour l'automatisation et la portabilité.
+
+
